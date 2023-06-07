@@ -53,10 +53,10 @@ namespace ElasticsearchInside.Tests
                 var client = new ElasticClient(new ConnectionSettings(elasticsearch.Url));
 
                 ////Act
-                client.Index(new { id = "tester" }, i => i.Index("test-index").Type("test-type"));
+                await client.IndexAsync(new { id = "tester" }, i => i.Index("test-index"));
 
                 ////Assert
-                var result = client.Get(DocumentPath<dynamic>.Id("tester"), i => i.Index("test-index").Type("test-type"));
+                var result = client.Get(DocumentPath<dynamic>.Id("tester"), i => i.Index("test-index"));
                 Assert.That(result, Is.Not.Null);
                 Assert.That(result.Found);
             }
@@ -101,7 +101,7 @@ namespace ElasticsearchInside.Tests
                 var client = new ElasticClient(new ConnectionSettings(elasticsearch.Url));
 
                 ////Act
-                var result = await client.CatPluginsAsync();
+                var result = await client.Cat.PluginsAsync();
                 
                 ////Assert
                 Assert.That(result.Records.Count, Is.EqualTo(1));
@@ -168,7 +168,7 @@ namespace ElasticsearchInside.Tests
             {
                 settings = (Settings)elasticsearch.Settings;
                 var client = new ElasticClient(new ConnectionSettings(elasticsearch.Url));
-                var result = await client.CatPluginsAsync();
+                var result = await client.Cat.PluginsAsync();
                 Assert.That(result.Records.Count, Is.EqualTo(1));
             }
 
@@ -180,7 +180,7 @@ namespace ElasticsearchInside.Tests
             {
                 settings = (Settings)elasticsearch.Settings;
                 var client = new ElasticClient(new ConnectionSettings(elasticsearch.Url));
-                var result = await client.CatPluginsAsync();
+                var result = await client.Cat.PluginsAsync();
                 Assert.That(result.Records.Count, Is.EqualTo(1));
             }
 
